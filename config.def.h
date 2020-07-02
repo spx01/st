@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
+static char *font = "mono-14";
 /* Spare fonts */
 static char *font2[] = {
 	"",
@@ -226,6 +226,10 @@ ResourcePref resources[] = {
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
 
+static char *openurlcmd[] = { "/bin/sh", "-c",
+	"regex='(((http|https|ftp|gopher)|mailto)[.:][^ >\"\\t]*|www\\.[-a-z0-9.]+)[^ .,;\\t>\">\\):]' url=$(grep -Po \"$regex\" | eval dmenu $DMENU_ARGS -p \"URLs:\") || exit; $BROWSER \"$url\"",
+	"externalpipe", NULL };
+
 /*
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
@@ -261,6 +265,7 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Return,      newterm,        {.i =  0} },
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	{ TERMMOD,              XK_U,           externalpipe,   {.v = openurlcmd} },
 };
 
 /*
